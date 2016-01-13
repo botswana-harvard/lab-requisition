@@ -18,7 +18,7 @@ from edc_device import Device
 from edc_lab.lab_clinic_api.models import TestCode
 
 from .choices import ITEM_TYPE, REASON_NOT_DRAWN, PRIORITY
-from .classes import RequisitionLabel
+from .requisition_label import RequisitionLabel
 
 
 class RequisitionManager(models.Manager):
