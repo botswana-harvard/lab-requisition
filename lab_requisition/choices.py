@@ -3,7 +3,7 @@
 PRIORITY = (
     ('normal', 'Normal'),
     ('urgent', 'Urgent'),
-    )
+)
 
 REASON_NOT_DRAWN = (
     ('collection_failed', 'Tried, but unable obtaining sample from patient'),
