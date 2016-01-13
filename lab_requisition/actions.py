@@ -1,14 +1,14 @@
 from datetime import datetime
 
 from django.contrib import messages
+from django.utils import timezone
 
 from edc_lab.lab_profile.exceptions import SpecimenError
 from edc_lab.lab_profile.classes import site_lab_profiles
 
+from lab_requisition.requisition_label import RequisitionLabel
 from lis.exim.lab_export.classes import ExportDmis
 from lis.labeling.exceptions import LabelPrinterError
-from edc_lab.lab_requisition.classes.requisition_label import RequisitionLabel
-from django.utils import timezone
 
 
 def flag_as_received(modeladmin, request, queryset, **kwargs):
