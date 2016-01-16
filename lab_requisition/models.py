@@ -47,7 +47,7 @@ class RequisitionModelMixin(models.Model):
 
     def __init__(self, *args, **kwargs):
         if not self.aliquot_model:
-            raise ImproperlyConfigured('{}.aliquot model cannot be None'.format(self.__class__.__name__))
+            raise ImproperlyConfigured('{}.aliquot_model cannot be None.'.format(self.__class__.__name__))
         super(RequisitionModelMixin, self).__init__(*args, **kwargs)
 
     aliquot_model = None

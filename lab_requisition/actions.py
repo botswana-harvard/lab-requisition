@@ -7,7 +7,6 @@ from edc_lab.lab_profile.exceptions import SpecimenError
 from edc_lab.lab_profile.classes import site_lab_profiles
 
 from lab_requisition.requisition_label import RequisitionLabel
-from lis.exim.lab_export.classes import ExportDmis
 from lis.labeling.exceptions import LabelPrinterError
 
 
@@ -43,14 +42,6 @@ def flag_as_not_labelled(modeladmin, request, queryset):
         qs.save(update_fields=['is_labelled'])
 
 flag_as_not_labelled.short_description = "UN-LABEL: flag as NOT labelled"
-
-
-def receive_on_dmis(modeladmin, request, queryset):
-    export_dmis = ExportDmis()
-    for qs in queryset:
-        qs.comment, qs.is_lis = export_dmis.receive(qs)
-        qs.save(update_fields=['is_lis'])
-flag_as_not_labelled.short_description = "DMIS-receive: receive sample on the dmis (for BHHRL LAB STAFF ONLY)"
 
 
 def print_requisition_label(modeladmin, request, requisitions):
