@@ -1,8 +1,8 @@
 import re
-
 import random
 from uuid import uuid4
 
+from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
@@ -14,11 +14,12 @@ from edc_identifier.old_identifier import Identifier
 from edc_base.model.fields.custom_fields import InitialsField
 from edc_constants.choices import YES_NO
 from edc_constants.constants import YES, NO
-from edc_device import Device
 from edc_lab.lab_clinic_api.models import TestCode
 
 from .choices import ITEM_TYPE, REASON_NOT_DRAWN, PRIORITY
 from .requisition_label import RequisitionLabel
+
+edc_device_app_config = django_apps.get_app_config('edc_device')
 
 
 class RequisitionManager(models.Manager):
@@ -29,8 +30,7 @@ class RequisitionManager(models.Manager):
     def get_global_identifier(self, **kwargs):
         """Generates and returns a globally unique requisition identifier
         (adds site and protocolnumber)"""
-        device = Device()
-        if not device.is_server:
+        if not edc_device_app_config.is_server:
             raise ValueError(
                 'Only SERVERs may access method \'get_global_identifier\' machine_type.')
         identifier = Identifier(
@@ -43,7 +43,7 @@ class RequisitionManager(models.Manager):
         return identifier
 
 
-class RequisitionModelMixin(models.Model):
+class RequisitionModelMixin:
 
     def __init__(self, *args, **kwargs):
         if not self.aliquot_model:
@@ -208,8 +208,7 @@ class RequisitionModelMixin(models.Model):
     def prepare_requisition_identifier(self, **kwargs):
         """Generate and returns a locally unique requisition
         identifier for a device (adds device id)"""
-        device = Device()
-        device_id = kwargs.get('device_id', device.device_id)
+        device_id = kwargs.get('device_id', edc_device_app_config.device_id)
         template = '{device_id}{random_string}'
         opts = {
             'device_id': device_id,
