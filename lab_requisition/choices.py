@@ -10,6 +10,7 @@ REASON_NOT_DRAWN = (
     ('absent', 'Patient did not attend visit'),
     ('refused', 'Patient refused'),
     ('no_supplies', 'No supplies'),
+    ('other', 'Other'),
 )
 
 ITEM_TYPE = (
